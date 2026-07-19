@@ -274,3 +274,19 @@ body {
   border-radius: 50%;
   display: inline-block;
 }
+
+/* Image support for tool cards */
+.tool-thumb-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.tool-thumb.has-image {
+  background: #0a0a0a;
+  padding: 0;
+  overflow: hidden;
+}
+.tool-thumb.has-image .tool-thumb-icon {
+  display: none;
+}
