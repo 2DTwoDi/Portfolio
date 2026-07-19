@@ -1,3 +1,6 @@
+/* ================================================================
+   JS/ADMIN.JS — CMS logic (unchanged, works with main.js)
+   ================================================================ */
 (function () {
 const defaultTools = [
   {
@@ -211,6 +214,8 @@ function openEditForm(idx) {
 }
 
 window.openAddForm = openAddForm;
+window.openEditForm = openEditForm;
+window.deleteTool = deleteTool;
 
 function saveToolForm() {
   const idxVal = document.getElementById("toolIndex").value;
@@ -303,28 +308,20 @@ function doImportJson() {
   }
 }
 
-// Bind events
-document.getElementById("adminAddBtn").addEventListener("click", openAddForm);
-document.getElementById("adminResetBtn").addEventListener("click", resetToDefaults);
-document.getElementById("adminExportBtn").addEventListener("click", exportToolsJson);
-document.getElementById("adminImportBtn").addEventListener("click", () => {
+// ===== BIND EVENTS =====
+document.getElementById("adminAddBtn")?.addEventListener("click", openAddForm);
+document.getElementById("adminResetBtn")?.addEventListener("click", resetToDefaults);
+document.getElementById("adminExportBtn")?.addEventListener("click", exportToolsJson);
+document.getElementById("adminImportBtn")?.addEventListener("click", () => {
   document.getElementById("importJsonTextarea").value = "";
   showView("import");
 });
+document.getElementById("adminSaveBtn")?.addEventListener("click", saveToolForm);
+document.getElementById("adminCancelBtn")?.addEventListener("click", () => showView("manager"));
+document.getElementById("adminDoImportBtn")?.addEventListener("click", doImportJson);
+document.getElementById("adminCancelImportBtn")?.addEventListener("click", () => showView("manager"));
+document.getElementById("adminCopyBtn")?.addEventListener("click", copyExportJson);
+document.getElementById("adminCloseExportBtn")?.addEventListener("click", () => showView("manager"));
 
-document.getElementById("adminSaveBtn").addEventListener("click", saveToolForm);
-document.getElementById("adminCancelBtn").addEventListener("click", () => showView("manager"));
-
-document.getElementById("adminDoImportBtn").addEventListener("click", doImportJson);
-document.getElementById("adminCancelImportBtn").addEventListener("click", () => showView("manager"));
-
-document.getElementById("adminCopyBtn").addEventListener("click", copyExportJson);
-document.getElementById("adminCloseExportBtn").addEventListener("click", () => showView("manager"));
-
-// Global scope binds MUST be before renderAdminTable so onclick handlers can find them
-window.openEditForm = openEditForm;
-window.deleteTool = deleteTool;
-
-// Init populate
 renderAdminTable();
 })();
