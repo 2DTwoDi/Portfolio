@@ -1,0 +1,276 @@
+@import url("https://fonts.googleapis.com/css2?family=Instrument+Serif&family=JetBrains+Mono:wght@400;500&display=swap");
+
+:root {
+  --bg: #0a0a0a;
+  --bg2: #111111;
+  --bg3: #151515;
+  --fg: #f2f0eb;
+  --muted: rgba(242, 240, 235, 0.55);
+  --muted2: rgba(242, 240, 235, 0.3);
+  --border: rgba(242, 240, 235, 0.14);
+  --border2: rgba(242, 240, 235, 0.08);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+body {
+  background: var(--bg);
+  color: var(--fg);
+  font-family: "Inter", sans-serif;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+.serif {
+  font-family: "Instrument Serif", serif;
+}
+.mono {
+  font-family: "JetBrains Mono", monospace;
+}
+
+/* Grain */
+.grain {
+  pointer-events: none;
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  opacity: 0.035;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* Nav — active link state for tools page */
+.nav-link.active {
+  opacity: 1;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+/* Page */
+.page {
+  padding: 16px;
+}
+@media (min-width: 768px) {
+  .page {
+    padding: 28px;
+  }
+}
+
+/* Outer frame - exactly like wireframe */
+.outer-frame {
+  max-width: 1600px;
+  margin: 0 auto;
+  border: 1px solid rgba(242, 240, 235, 0.3);
+  background: var(--bg);
+  padding: 16px;
+}
+@media (min-width: 900px) {
+  .outer-frame {
+    padding: 20px;
+  }
+}
+
+/* Header - big box */
+.tools-header {
+  border: 1px solid rgba(242, 240, 235, 0.3);
+  padding: 48px 24px;
+  text-align: center;
+  background: var(--bg2);
+}
+.tools-header h1 {
+  font-family: "Instrument Serif", serif;
+  font-size: clamp(28px, 4.5vw, 56px);
+  letter-spacing: -0.02em;
+  font-weight: 400;
+  line-height: 0.9;
+  text-transform: uppercase;
+}
+.tools-header p {
+  margin-top: 14px;
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  opacity: 0.5;
+}
+
+/* Grid */
+.tools-grid {
+  margin-top: 20px;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+}
+@media (min-width: 480px) {
+  .tools-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+@media (min-width: 768px) {
+  .tools-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+@media (min-width: 1200px) {
+  .tools-grid {
+    grid-template-columns: repeat(5, 1fr);
+  }
+}
+
+/* Card */
+.tool-card {
+  border: 1px solid rgba(242, 240, 235, 0.3);
+  background: #111;
+  display: flex;
+  flex-direction: column;
+  transition: border-color 0.2s, background 0.2s;
+  overflow: hidden;
+  min-height: 0;
+}
+.tool-card:hover {
+  background: #161616;
+  border-color: rgba(242, 240, 235, 0.6);
+}
+
+/* Icon preview area */
+.tool-thumb {
+  height: 110px;
+  background: radial-gradient(ellipse at 40% 40%, #1c1c1c, #0a0a0a);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  border-bottom: 1px solid rgba(242,240,235,0.1);
+}
+.tool-thumb-icon {
+  font-family: "Instrument Serif", serif;
+  font-size: 36px;
+  opacity: 0.2;
+  line-height: 1;
+  user-select: none;
+}
+
+/* Badge */
+.tool-badge {
+  font-family: "JetBrains Mono", monospace;
+  font-size: 7.5px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  border: 1px solid rgba(242,240,235,0.18);
+  padding: 3px 7px;
+  opacity: 0.6;
+  display: inline-block;
+  margin: 10px 10px 0;
+  width: fit-content;
+}
+
+/* Text */
+.tool-info {
+  padding: 6px 10px 10px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.tool-name {
+  font-family: "Instrument Serif", serif;
+  font-size: 17px;
+  line-height: 1.1;
+  font-weight: 400;
+}
+.tool-desc {
+  font-family: "JetBrains Mono", monospace;
+  font-size: 8px;
+  line-height: 1.5;
+  opacity: 0.38;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+}
+
+/* Card footer */
+.tool-foot {
+  display: flex;
+  align-items: stretch;
+  border-top: 1px solid rgba(242, 240, 235, 0.3);
+  height: 36px;
+  flex-shrink: 0;
+}
+.tool-foot .price {
+  font-family: "JetBrains Mono", monospace;
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  display: flex;
+  align-items: center;
+  padding: 0 10px;
+  flex: 1;
+  border-right: 1px solid rgba(242, 240, 235, 0.3);
+  min-width: 0;
+  overflow: hidden;
+  white-space: nowrap;
+}
+.tool-foot .dl {
+  font-family: "JetBrains Mono", monospace;
+  font-size: 8.5px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 0 12px;
+  background: transparent;
+  color: var(--fg);
+  cursor: pointer;
+  border: none;
+  white-space: nowrap;
+  flex-shrink: 0;
+  transition: background 0.15s, color 0.15s;
+}
+.tool-foot .dl:hover {
+  background: var(--fg);
+  color: #000;
+}
+
+/* Grid footer */
+.grid-footer {
+  margin-top: 20px;
+  border: 1px solid var(--border);
+  padding: 12px 14px;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 8px;
+  font-size: 9px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  opacity: 0.4;
+}
+
+/* Toast */
+.toast {
+  position: fixed;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%) translateY(100px);
+  background: var(--fg);
+  color: #000;
+  padding: 10px 18px;
+  font-family: "JetBrains Mono";
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  z-index: 100;
+  opacity: 0;
+  transition: 0.4s cubic-bezier(0.8, 0, 0.2, 1);
+  border: 1px solid var(--fg);
+}
+.toast.show {
+  transform: translateX(-50%) translateY(0);
+  opacity: 1;
+}
+.dot {
+  width: 7px;
+  height: 7px;
+  background: #16a34a;
+  border-radius: 50%;
+  display: inline-block;
+}

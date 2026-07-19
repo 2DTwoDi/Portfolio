@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Filmage Tools CMS — Admin Panel</title>
+    <link rel="stylesheet" href="../css/tools.css" />
+    <link rel="stylesheet" href="../css/admin.css" />
+  </head>
+  <body>
+    <div class="grain"></div>
+    <div id="toast" class="toast">
+      <span class="dot"></span><span id="toastMsg">Changes saved</span>
+    </div>
+
+    <nav class="nav">
+      <div class="nav-inner">
+        <a href="#" class="logo">FILMAGE MEDIA©</a>
+        <div class="nav-links">
+          <a href="#" class="nav-link">WORK</a>
+          <a href="#" class="nav-link">CLIENTS</a>
+          <a href="tools.html" class="nav-link">TOOLS</a>
+          <a href="#" class="nav-link">CONTACT</a>
+          <a href="admin.html" class="nav-link active">ADMIN</a>
+        </div>
+      </div>
+    </nav>
+
+    <main class="page">
+      <div class="outer-frame">
+        <!-- Header -->
+        <header class="tools-header">
+          <h1>CMS ADMIN PANEL</h1>
+          <p class="mono">Manage products list dynamically via local storage</p>
+        </header>
+
+        <!-- Manager Dashboard Section -->
+        <div id="adminManagerView">
+          <div class="admin-toolbar">
+            <button class="btn-action" id="adminAddBtn">+ Add Tool</button>
+            <div style="display: flex; gap: 10px;">
+              <button class="btn-action btn-secondary" id="adminResetBtn">Reset Defaults</button>
+              <button class="btn-action btn-secondary" id="adminExportBtn">Export JSON</button>
+              <button class="btn-action btn-secondary" id="adminImportBtn">Import JSON</button>
+            </div>
+          </div>
+
+          <div class="table-wrapper">
+            <table class="admin-table">
+              <thead>
+                <tr>
+                  <th class="mono" style="width: 80px;">Icon</th>
+                  <th class="mono">Name</th>
+                  <th class="mono">Badge</th>
+                  <th class="mono">Price</th>
+                  <th class="mono" style="width: 150px;">Actions</th>
+                </tr>
+              </thead>
+              <tbody id="adminTableBody">
+                <!-- Dynamically populated -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Form Section (Add / Edit) -->
+        <div id="adminFormView" style="display: none;">
+          <h2 class="serif form-title" id="formTitle">Add New Tool</h2>
+          <form id="adminForm" onsubmit="return false;">
+            <input type="hidden" id="toolIndex" />
+            <div class="form-grid">
+              <div class="form-group">
+                <label for="toolName" class="mono">Tool Name*</label>
+                <input type="text" id="toolName" required placeholder="e.g. Filmage Cut" />
+              </div>
+              <div class="form-group">
+                <label for="toolPrice" class="mono">Price*</label>
+                <input type="text" id="toolPrice" required placeholder="e.g. $49 or FREE" />
+              </div>
+              <div class="form-group">
+                <label for="toolIcon" class="mono">Icon Character (Emoji or letters)*</label>
+                <input type="text" id="toolIcon" required placeholder="e.g. ✂ or Aa" />
+              </div>
+              <div class="form-group">
+                <label for="toolBadge" class="mono">Badge*</label>
+                <input type="text" id="toolBadge" required placeholder="e.g. BESTSELLER or NEW" />
+              </div>
+              <div class="form-group full-width">
+                <label for="toolDesc" class="mono">Short Description*</label>
+                <input type="text" id="toolDesc" required placeholder="e.g. Auto podcast cuts" />
+              </div>
+              <div class="form-group full-width">
+                <label for="toolDownloadUrl" class="mono">Download URL (Optional)</label>
+                <input type="text" id="toolDownloadUrl" placeholder="e.g. https://filimagemedia.gumroad.com/l/filmage-cut" />
+              </div>
+            </div>
+            <div class="form-actions">
+              <button class="btn-action" type="button" id="adminSaveBtn">Save Changes</button>
+              <button class="btn-action btn-secondary" type="button" id="adminCancelBtn">Cancel</button>
+            </div>
+          </form>
+        </div>
+
+        <!-- JSON Import Section -->
+        <div id="adminImportView" style="display: none;">
+          <h2 class="serif form-title">Import Tools JSON</h2>
+          <p class="mono" style="opacity: 0.5; margin-bottom: 12px; font-size: 11px;">Paste a JSON array of tools to overwrite the database.</p>
+          <textarea id="importJsonTextarea" placeholder='[{"name": "Tool", "price": "$49", "icon": "✂", "badge": "NEW", "desc": "Desc"}]'></textarea>
+          <div class="form-actions">
+            <button class="btn-action" type="button" id="adminDoImportBtn">Import</button>
+            <button class="btn-action btn-secondary" type="button" id="adminCancelImportBtn">Cancel</button>
+          </div>
+        </div>
+
+        <!-- JSON Export Section -->
+        <div id="adminExportView" style="display: none;">
+          <h2 class="serif form-title">Export Tools JSON</h2>
+          <p class="mono" style="opacity: 0.5; margin-bottom: 12px; font-size: 11px;">Copy this database backup code to save your items list.</p>
+          <textarea id="exportJsonTextarea" readonly></textarea>
+          <div class="form-actions">
+            <button class="btn-action" type="button" id="adminCopyBtn">Copy Code</button>
+            <button class="btn-action btn-secondary" type="button" id="adminCloseExportBtn">Back</button>
+          </div>
+        </div>
+
+        <footer class="grid-footer mono">
+          <span>© 2025 FILMAGE MEDIA • CMS DASHBOARD</span>
+          <span>hello@filimagemedia.com</span>
+        </footer>
+      </div>
+    </main>
+
+    <script src="../js/admin.js"></script>
+  </body>
+</html>
