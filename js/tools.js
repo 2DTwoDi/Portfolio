@@ -4,6 +4,7 @@ const defaultTools = [
     name: "Filmage Cut",
     price: "$49",
     icon: "✂",
+    image: "",
     badge: "BESTSELLER",
     desc: "Auto podcast cuts",
     downloadUrl: "https://filimagemedia.gumroad.com/l/filmage-cut"
@@ -12,6 +13,7 @@ const defaultTools = [
     name: "Filmage Captions",
     price: "$59",
     icon: "Aa",
+    image: "",
     badge: "NEW",
     desc: "Auto subtitles",
     downloadUrl: "https://filimagemedia.gumroad.com/l/filmage-captions"
@@ -20,6 +22,7 @@ const defaultTools = [
     name: "Filmage Transitions",
     price: "$39",
     icon: "⇄",
+    image: "",
     badge: "150+",
     desc: "Seamless transitions",
     downloadUrl: "https://filimagemedia.gumroad.com/l/filmage-transitions"
@@ -28,6 +31,7 @@ const defaultTools = [
     name: "Motion Pack",
     price: "$29",
     icon: "◐",
+    image: "",
     badge: "300+",
     desc: "Presets & elements",
     downloadUrl: "https://filimagemedia.gumroad.com/l/motion-pack"
@@ -36,6 +40,7 @@ const defaultTools = [
     name: "Filmage Sync",
     price: "$45",
     icon: "♪",
+    image: "",
     badge: "BEAT SYNC",
     desc: "Auto beat sync",
     downloadUrl: "https://filimagemedia.gumroad.com/l/filmage-sync"
@@ -44,6 +49,7 @@ const defaultTools = [
     name: "Filmage Glow",
     price: "$19",
     icon: "◧",
+    image: "",
     badge: "GLOW",
     desc: "Light leaks",
     downloadUrl: "https://filimagemedia.gumroad.com/l/filmage-glow"
@@ -52,6 +58,7 @@ const defaultTools = [
     name: "Filmage Cleaner",
     price: "$25",
     icon: "✦",
+    image: "",
     badge: "AI",
     desc: "Audio clean",
     downloadUrl: "https://filimagemedia.gumroad.com/l/filmage-cleaner"
@@ -60,6 +67,7 @@ const defaultTools = [
     name: "Filmage Resize",
     price: "$15",
     icon: "⧉",
+    image: "",
     badge: "9:16",
     desc: "Auto reframe",
     downloadUrl: "https://filimagemedia.gumroad.com/l/filmage-resize"
@@ -68,6 +76,7 @@ const defaultTools = [
     name: "Filmage Export",
     price: "$22",
     icon: "↗",
+    image: "",
     badge: "FAST",
     desc: "Smart export",
     downloadUrl: "https://filimagemedia.gumroad.com/l/filmage-export"
@@ -76,6 +85,7 @@ const defaultTools = [
     name: "Filmage Stabilize",
     price: "$30",
     icon: "◎",
+    image: "",
     badge: "STABLE",
     desc: "Warp stabilize+",
     downloadUrl: "https://filimagemedia.gumroad.com/l/filmage-stabilize"
@@ -84,6 +94,7 @@ const defaultTools = [
     name: "Filmage Color",
     price: "$35",
     icon: "◑",
+    image: "",
     badge: "LUTs",
     desc: "Color grades",
     downloadUrl: "https://filimagemedia.gumroad.com/l/filmage-color"
@@ -92,6 +103,7 @@ const defaultTools = [
     name: "Filmage Type",
     price: "$18",
     icon: "T",
+    image: "",
     badge: "TYPE",
     desc: "Text animators",
     downloadUrl: "https://filimagemedia.gumroad.com/l/filmage-type"
@@ -100,6 +112,7 @@ const defaultTools = [
     name: "Filmage SFX",
     price: "$12",
     icon: "◩",
+    image: "",
     badge: "SFX",
     desc: "Whoosh pack",
     downloadUrl: "https://filimagemedia.gumroad.com/l/filmage-sfx"
@@ -108,6 +121,7 @@ const defaultTools = [
     name: "Filmage Logo",
     price: "$20",
     icon: "◫",
+    image: "",
     badge: "REVEAL",
     desc: "Logo reveals",
     downloadUrl: "https://filimagemedia.gumroad.com/l/filmage-logo"
@@ -116,6 +130,7 @@ const defaultTools = [
     name: "Pro Bundle",
     price: "$149",
     icon: "★",
+    image: "",
     badge: "SAVE $92",
     desc: "All plugins",
     downloadUrl: "https://filimagemedia.gumroad.com/l/pro-bundle"
@@ -128,6 +143,7 @@ function loadTools() {
   if (stored) {
     try {
       tools = JSON.parse(stored);
+      tools = tools.map(t => ({ image: "", icon: t.icon || "", ...t }));
     } catch (e) {
       tools = JSON.parse(JSON.stringify(defaultTools));
     }
@@ -147,10 +163,15 @@ function render() {
   if (!grid) return;
   grid.innerHTML = tools
     .map(
-      (t, i) => `
+      (t, i) => {
+        const hasImage = t.image && t.image.trim() !== "";
+        const thumbContent = hasImage 
+          ? `<img src="${t.image}" alt="${t.name}" class="tool-thumb-img" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='block'" /><span class="tool-thumb-icon" style="display:none;">${t.icon || "⚙"}</span>`
+          : `<span class="tool-thumb-icon">${t.icon || "⚙"}</span>`;
+        return `
     <div class="tool-card">
-      <div class="tool-thumb">
-        <span class="tool-thumb-icon">${t.iconImage ? `<img src="${t.iconImage}" alt="" style="width:100%;height:100%;object-fit:contain" />` : (t.icon || "⚙")}</span>
+      <div class="tool-thumb ${hasImage ? 'has-image' : ''}">
+        ${thumbContent}
       </div>
       <div class="tool-badge">${t.badge || "TOOL"}</div>
       <div class="tool-info">
@@ -162,7 +183,8 @@ function render() {
         <button class="dl" data-name="${t.name}" data-url="${t.downloadUrl || ""}">Download</button>
       </div>
     </div>
-  `,
+  `;
+      }
     )
     .join("");
 
