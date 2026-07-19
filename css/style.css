@@ -1,3 +1,6 @@
+/* ================================================================
+   CSS/STYLE.CSS — Clean navbar without !important hacks
+   ================================================================ */
 @import url("https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500&family=Inter:wght@400;500;600&display=swap");
 
 :root {
@@ -58,7 +61,7 @@ button {
   }
 }
 
-/* Grain */
+/* Grain overlay */
 .grain {
   pointer-events: none;
   position: fixed;
@@ -81,10 +84,7 @@ button {
   mix-blend-mode: difference;
   background: #fff;
   transform: translate(-50%, -50%);
-  transition:
-    width 0.2s,
-    height 0.2s,
-    opacity 0.2s;
+  transition: width 0.2s, height 0.2s, opacity 0.2s;
   opacity: 0;
 }
 @media (hover: hover) {
@@ -113,7 +113,7 @@ button {
   opacity: 1;
 }
 
-/* Navbar */
+/* ===== NAVBAR ===== */
 .nav {
   position: sticky;
   top: 0;
@@ -135,6 +135,8 @@ button {
   text-transform: uppercase;
   font-weight: 500;
 }
+
+/* Desktop nav links: hidden on mobile, shown at 900px+ */
 .nav-links {
   display: none;
   gap: 28px;
@@ -155,6 +157,12 @@ button {
 .nav-link:hover {
   opacity: 1;
 }
+.nav-link.active {
+  opacity: 1;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
 .btn-primary {
   height: 40px;
   padding: 0 20px;
@@ -172,6 +180,7 @@ button {
 .btn-primary:hover {
   background: #fff;
 }
+
 .hamburger {
   display: flex;
   flex-direction: column;
@@ -190,7 +199,7 @@ button {
   }
 }
 
-/* Mobile menu */
+/* Mobile menu overlay */
 .mobile-menu {
   position: fixed;
   inset: 0;
@@ -211,14 +220,8 @@ button {
   padding: 12px 0;
   border-bottom: 1px solid var(--border-2);
 }
-.mobile-menu .hamburger span {
-  height: 1px;
-  background: var(--fg);
-  display: block;
-  width: 100%;
-}
 
-/* Hero */
+/* ===== HERO ===== */
 .hero {
   padding: 48px 0 32px;
 }
@@ -258,6 +261,7 @@ button {
   background: #111;
   border: 1px solid var(--border);
   overflow: hidden;
+  cursor: pointer;
 }
 .hero-reel-inner {
   position: absolute;
@@ -276,6 +280,7 @@ button {
   display: flex;
   align-items: center;
   justify-content: center;
+  font-size: 28px;
   transition: 0.3s;
 }
 .play-btn:hover {
@@ -300,7 +305,7 @@ button {
   opacity: 0.45;
 }
 
-/* Section head */
+/* ===== SECTIONS ===== */
 .section {
   padding: 80px 0;
   border-top: 1px solid var(--border-2);
@@ -345,6 +350,8 @@ button {
   text-transform: uppercase;
   opacity: 0.6;
   transition: 0.2s;
+  background: transparent;
+  color: var(--fg);
 }
 .filter.active,
 .filter:hover {
@@ -390,11 +397,7 @@ button {
 .work-card .overlay {
   position: absolute;
   inset: 0;
-  background: linear-gradient(
-    to top,
-    rgba(0, 0, 0, 0.85) 0%,
-    rgba(0, 0, 0, 0.1) 60%
-  );
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.85) 0%, rgba(0, 0, 0, 0.1) 60%);
   padding: 20px;
   display: flex;
   flex-direction: column;
@@ -438,7 +441,7 @@ button {
   transform: translate(-50%, -50%) scale(1);
 }
 
-/* Clients */
+/* Clients marquee */
 .marquee {
   overflow: hidden;
   border-top: 1px solid var(--border-2);
@@ -456,12 +459,8 @@ button {
   animation-play-state: paused;
 }
 @keyframes marquee {
-  0% {
-    transform: translateX(0);
-  }
-  100% {
-    transform: translateX(-50%);
-  }
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
 }
 .marquee-item {
   font-family: "JetBrains Mono";
@@ -667,6 +666,7 @@ button {
   font-size: 14px;
   outline: none;
   transition: 0.2s;
+  font-family: inherit;
 }
 .input:focus {
   border-color: rgba(255, 255, 255, 0.3);
@@ -687,7 +687,7 @@ textarea.input {
   }
 }
 .full {
-  grid-column: 1/-1;
+  grid-column: 1 / -1;
 }
 
 /* Modal */
@@ -725,6 +725,9 @@ textarea.input {
   align-items: center;
   justify-content: center;
   z-index: 2;
+  font-size: 20px;
+  border: none;
+  cursor: pointer;
 }
 .video-wrap {
   aspect-ratio: 16/9;
@@ -760,7 +763,7 @@ textarea.input {
   width: 8px;
   height: 8px;
   background: #16a34a;
-  border-radius: 50%;
+  border-radius: 50;
 }
 
 /* Footer */
