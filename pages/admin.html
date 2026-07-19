@@ -1,9 +1,13 @@
+<!-- ============================================================
+     PAGES/ADMIN.HTML — Fixed navbar with hamburger + mobile menu
+     ============================================================ -->
 <!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Filmage Tools CMS — Admin Panel</title>
+    <link rel="stylesheet" href="../css/style.css" />
     <link rel="stylesheet" href="../css/tools.css" />
     <link rel="stylesheet" href="../css/admin.css" />
   </head>
@@ -13,32 +17,57 @@
       <span class="dot"></span><span id="toastMsg">Changes saved</span>
     </div>
 
+    <!-- ====== NAVBAR ====== -->
     <nav class="nav">
-      <div class="nav-inner">
+      <div class="container nav-inner">
         <a href="../index.html" class="logo">FILMAGE MEDIA©</a>
         <div class="nav-links">
-          <a href="../index.html#work" class="nav-link">WORK</a>
-          <a href="../index.html#clients" class="nav-link">CLIENTS</a>
-          <a href="tools.html" class="nav-link">TOOLS</a>
-          <a href="../index.html#contact" class="nav-link">CONTACT</a>
-          <a href="admin.html" class="nav-link active">ADMIN</a>
+          <a href="../index.html#work" class="nav-link">Work</a>
+          <a href="../index.html#clients" class="nav-link">Clients</a>
+          <a href="tools.html" class="nav-link">Tools</a>
+          <a href="../index.html#contact" class="nav-link">Contact</a>
+          <a href="admin.html" class="nav-link active">Admin</a>
+        </div>
+        <div style="display: flex; gap: 12px; align-items: center">
+          <button class="btn-primary" id="startProjectBtn">Start a Project →</button>
+          <button class="hamburger" id="hamburger" aria-label="Menu">
+            <span></span><span></span><span></span>
+          </button>
         </div>
       </div>
     </nav>
 
+    <!-- ====== MOBILE MENU ====== -->
+    <div id="mobileMenu" class="mobile-menu">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 40px">
+        <div class="logo">FILMAGE MEDIA©</div>
+        <button class="hamburger" id="closeMobile" aria-label="Close menu" style="width: 22px">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+      <a href="../index.html#work">Work</a>
+      <a href="../index.html#clients">Clients</a>
+      <a href="tools.html">Tools</a>
+      <a href="../index.html#contact">Contact</a>
+      <a href="admin.html">Admin</a>
+      <div class="mono" style="margin-top: 40px; font-size: 11px; opacity: 0.5; letter-spacing: 0.12em">
+        hello@filimagemedia.com<br />@filimagemedia
+      </div>
+    </div>
+
+    <!-- ====== MAIN ====== -->
     <main class="page">
       <div class="outer-frame">
-        <!-- Header -->
         <header class="tools-header">
           <h1>CMS ADMIN PANEL</h1>
           <p class="mono">Manage products list dynamically via local storage</p>
         </header>
 
-        <!-- Manager Dashboard Section -->
+        <!-- Manager Dashboard -->
         <div id="adminManagerView">
           <div class="admin-toolbar">
             <button class="btn-action" id="adminAddBtn">+ Add Tool</button>
-            <div style="display: flex; gap: 10px;">
+            <div style="display: flex; gap: 10px; flex-wrap: wrap;">
               <button class="btn-action btn-secondary" id="adminResetBtn">Reset Defaults</button>
               <button class="btn-action btn-secondary" id="adminExportBtn">Export JSON</button>
               <button class="btn-action btn-secondary" id="adminImportBtn">Import JSON</button>
@@ -57,13 +86,13 @@
                 </tr>
               </thead>
               <tbody id="adminTableBody">
-                <!-- Dynamically populated -->
+                <!-- Populated by admin.js -->
               </tbody>
             </table>
           </div>
         </div>
 
-        <!-- Form Section (Add / Edit) -->
+        <!-- Add / Edit Form -->
         <div id="adminFormView" style="display: none;">
           <h2 class="serif form-title" id="formTitle">Add New Tool</h2>
           <form id="adminForm" onsubmit="return false;">
@@ -78,24 +107,24 @@
                 <input type="text" id="toolPrice" required placeholder="e.g. $49 or FREE" />
               </div>
               <div class="form-group">
-                <label for="toolIcon" class="mono">Icon Character (Emoji or letters)*</label>
+                <label for="toolIcon" class="mono">Icon Character*</label>
                 <input type="text" id="toolIcon" required placeholder="e.g. ✂ or Aa" />
               </div>
               <div class="form-group">
-                <label for="toolIconImage" class="mono">Icon Image URL (Optional - overrides character)</label>
-                <input type="text" id="toolIconImage" placeholder="e.g. https://example.com/icon.png" />
+                <label for="toolIconImage" class="mono">Icon Image URL (optional)</label>
+                <input type="text" id="toolIconImage" placeholder="https://example.com/icon.png" />
               </div>
               <div class="form-group">
                 <label for="toolBadge" class="mono">Badge*</label>
-                <input type="text" id="toolBadge" required placeholder="e.g. BESTSELLER or NEW" />
+                <input type="text" id="toolBadge" required placeholder="e.g. BESTSELLER" />
               </div>
               <div class="form-group full-width">
                 <label for="toolDesc" class="mono">Short Description*</label>
                 <input type="text" id="toolDesc" required placeholder="e.g. Auto podcast cuts" />
               </div>
               <div class="form-group full-width">
-                <label for="toolDownloadUrl" class="mono">Download URL (Optional)</label>
-                <input type="text" id="toolDownloadUrl" placeholder="e.g. https://filimagemedia.gumroad.com/l/filmage-cut" />
+                <label for="toolDownloadUrl" class="mono">Download URL (optional)</label>
+                <input type="text" id="toolDownloadUrl" placeholder="https://filimagemedia.gumroad.com/l/..." />
               </div>
             </div>
             <div class="form-actions">
@@ -105,7 +134,7 @@
           </form>
         </div>
 
-        <!-- JSON Import Section -->
+        <!-- Import JSON -->
         <div id="adminImportView" style="display: none;">
           <h2 class="serif form-title">Import Tools JSON</h2>
           <p class="mono" style="opacity: 0.5; margin-bottom: 12px; font-size: 11px;">Paste a JSON array of tools to overwrite the database.</p>
@@ -116,10 +145,10 @@
           </div>
         </div>
 
-        <!-- JSON Export Section -->
+        <!-- Export JSON -->
         <div id="adminExportView" style="display: none;">
           <h2 class="serif form-title">Export Tools JSON</h2>
-          <p class="mono" style="opacity: 0.5; margin-bottom: 12px; font-size: 11px;">Copy this database backup code to save your items list.</p>
+          <p class="mono" style="opacity: 0.5; margin-bottom: 12px; font-size: 11px;">Copy this database backup to save your items list.</p>
           <textarea id="exportJsonTextarea" readonly></textarea>
           <div class="form-actions">
             <button class="btn-action" type="button" id="adminCopyBtn">Copy Code</button>
@@ -134,6 +163,8 @@
       </div>
     </main>
 
+    <!-- main.js provides mobile menu + toast + cursor; admin.js provides CMS logic -->
+    <script src="../js/main.js"></script>
     <script src="../js/admin.js"></script>
   </body>
 </html>
