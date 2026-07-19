@@ -172,7 +172,7 @@ function renderAdminTable() {
   if (!adminTableBody) return;
   adminTableBody.innerHTML = tools.map((t, idx) => `
     <tr>
-      <td class="icon-cell">${t.icon || "⚙"}</td>
+      <td class="icon-cell">${t.iconImage ? `<img src="${t.iconImage}" alt="" style="width:24px;height:24px;object-fit:contain" />` : (t.icon || "⚙")}</td>
       <td style="font-weight: 500;">${t.name}</td>
       <td class="mono"><span style="border: 1px solid var(--border); padding: 2px 6px; font-size: 9px; opacity: 0.7;">${t.badge || "TOOL"}</span></td>
       <td class="mono" style="font-weight: 500;">${t.price}</td>
@@ -202,6 +202,7 @@ function openEditForm(idx) {
   document.getElementById("toolName").value = t.name;
   document.getElementById("toolPrice").value = t.price;
   document.getElementById("toolIcon").value = t.icon || "";
+  document.getElementById("toolIconImage").value = t.iconImage || "";
   document.getElementById("toolBadge").value = t.badge || "";
   document.getElementById("toolDesc").value = t.desc || "";
   document.getElementById("toolDownloadUrl").value = t.downloadUrl || "";
@@ -209,11 +210,14 @@ function openEditForm(idx) {
   showView("form");
 }
 
+window.openAddForm = openAddForm;
+
 function saveToolForm() {
   const idxVal = document.getElementById("toolIndex").value;
   const name = document.getElementById("toolName").value.trim();
   const price = document.getElementById("toolPrice").value.trim();
   const icon = document.getElementById("toolIcon").value.trim();
+  const iconImage = document.getElementById("toolIconImage").value.trim();
   const badge = document.getElementById("toolBadge").value.trim();
   const desc = document.getElementById("toolDesc").value.trim();
   const downloadUrl = document.getElementById("toolDownloadUrl").value.trim();
@@ -223,7 +227,7 @@ function saveToolForm() {
     return;
   }
   
-  const toolData = { name, price, icon, badge, desc, downloadUrl };
+  const toolData = { name, price, icon, iconImage, badge, desc, downloadUrl };
   
   if (idxVal !== "") {
     const idx = Number(idxVal);
