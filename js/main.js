@@ -1,3 +1,6 @@
+/* ================================================================
+   JS/MAIN.JS — Fixed with guards for tools/admin pages
+   ================================================================ */
 const projects = [
   {
     id: 1,
@@ -6,7 +9,6 @@ const projects = [
     year: "2024",
     filter: "Commercial",
     client: "NIKE",
-    grad: "from-zinc-800",
   },
   {
     id: 2,
@@ -55,6 +57,7 @@ const grid = document.getElementById("workGrid");
 const filterWrap = document.getElementById("filters");
 const marqueeTrack = document.getElementById("marqueeTrack");
 
+// ===== GUARD: Only run portfolio rendering if the elements exist =====
 function renderProjects() {
   if (!grid) return;
   const list =
@@ -75,7 +78,7 @@ function renderProjects() {
       </div>
       <div class="hover-cta">PLAY</div>
     </div>
-  `,
+  `
     )
     .join("");
   grid.querySelectorAll(".work-card").forEach((card) => {
@@ -96,11 +99,12 @@ function renderProjects() {
 }
 
 function renderFilters() {
+  if (!filterWrap) return;
   const filters = ["All", "Commercial", "Reels", "Music", "Cinematic"];
   filterWrap.innerHTML = filters
     .map(
       (f) =>
-        `<button class="filter ${f === activeFilter ? "active" : ""}" data-f="${f}">${f}</button>`,
+        `<button class="filter ${f === activeFilter ? "active" : ""}" data-f="${f}">${f}</button>`
     )
     .join("");
   filterWrap.querySelectorAll(".filter").forEach((btn) => {
@@ -109,48 +113,54 @@ function renderFilters() {
       renderFilters();
       renderProjects();
       showToast(`Filter: ${activeFilter}`);
-      // observe again
       observeClients();
     });
   });
 }
 
-// Modal logic
+// ===== MODALS =====
 const projectModal = document.getElementById("projectModal");
 const showreelModal = document.getElementById("showreelModal");
 const projectIframe = document.getElementById("projectIframe");
 const projectMeta = document.getElementById("projectMeta");
 
 function openProject(p) {
+  if (!projectModal || !projectIframe || !projectMeta) return;
   projectMeta.textContent = `${p.category} • ${p.year} — Client: ${p.client}`;
   document.getElementById("projectTitle").textContent = p.title;
   projectIframe.src = "https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1";
   projectModal.classList.add("open");
   document.body.style.overflow = "hidden";
 }
+
 function closeProject() {
+  if (!projectModal || !projectIframe) return;
   projectModal.classList.remove("open");
   projectIframe.src = "";
   document.body.style.overflow = "";
 }
+
 function openShowreel() {
-  document.getElementById("showreelIframe").src =
-    "https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1";
+  const iframe = document.getElementById("showreelIframe");
+  if (!showreelModal || !iframe) return;
+  iframe.src = "https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1";
   showreelModal.classList.add("open");
   document.body.style.overflow = "hidden";
 }
+
 function closeShowreel() {
+  const iframe = document.getElementById("showreelIframe");
+  if (!showreelModal || !iframe) return;
   showreelModal.classList.remove("open");
-  document.getElementById("showreelIframe").src = "";
+  iframe.src = "";
   document.body.style.overflow = "";
 }
 
+// ===== EVENT BINDINGS (with guards) =====
 document.getElementById("playShowreel")?.addEventListener("click", openShowreel);
 document.getElementById("heroReel")?.addEventListener("click", openShowreel);
 document.getElementById("closeProject")?.addEventListener("click", closeProject);
-document
-  .getElementById("closeShowreel")
-  ?.addEventListener("click", closeShowreel);
+document.getElementById("closeShowreel")?.addEventListener("click", closeShowreel);
 projectModal?.addEventListener("click", (e) => {
   if (e.target === projectModal) closeProject();
 });
@@ -158,33 +168,40 @@ showreelModal?.addEventListener("click", (e) => {
   if (e.target === showreelModal) closeShowreel();
 });
 
-// Toast
+// ===== TOAST =====
 const toastEl = document.getElementById("toast");
 function showToast(msg) {
   if (toastEl) {
-    toastEl.querySelector("span:last-child").textContent = msg;
+    const span = toastEl.querySelector("span:last-child");
+    if (span) span.textContent = msg;
     toastEl.classList.add("show");
     clearTimeout(toastEl._t);
     toastEl._t = setTimeout(() => toastEl.classList.remove("show"), 3000);
   }
 }
 
-// Nav scroll
+// ===== SMOOTH SCROLL (same-page) =====
 document.querySelectorAll("[data-scroll]").forEach((a) => {
   a.addEventListener("click", (e) => {
     e.preventDefault();
     const id = a.dataset.scroll;
-    document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
+    const target = document.getElementById(id);
+    if (target) {
+      target.scrollIntoView({ behavior: "smooth" });
+    }
     closeMobile();
     if (id) showToast(`Navigating to ${id}`);
   });
 });
+
+// ===== START PROJECT BUTTON =====
 document.getElementById("startProjectBtn")?.addEventListener("click", () => {
-  document.getElementById("contact")?.scrollIntoView({ behavior: "smooth" });
+  const contact = document.getElementById("contact");
+  if (contact) contact.scrollIntoView({ behavior: "smooth" });
   showToast("Start a project — contact");
 });
 
-// Mobile
+// ===== MOBILE MENU =====
 const mobileMenu = document.getElementById("mobileMenu");
 function openMobile() {
   if (mobileMenu) {
@@ -200,18 +217,18 @@ function closeMobile() {
 }
 document.getElementById("hamburger")?.addEventListener("click", openMobile);
 document.getElementById("closeMobile")?.addEventListener("click", closeMobile);
-mobileMenu
-  ?.querySelectorAll("[data-scroll]")
-  ?.forEach((a) => a.addEventListener("click", closeMobile));
+mobileMenu?.querySelectorAll("a").forEach((a) => {
+  a.addEventListener("click", closeMobile);
+});
 
-// Form
+// ===== CONTACT FORM =====
 document.getElementById("contactForm")?.addEventListener("submit", (e) => {
   e.preventDefault();
   showToast("Message sent — we'll reply in 24h");
   e.target.reset();
 });
 
-// Custom cursor
+// ===== CUSTOM CURSOR =====
 const cursor = document.getElementById("cursor");
 let mouseX = -100,
   mouseY = -100,
@@ -231,7 +248,7 @@ window.addEventListener("mousemove", (e) => {
   requestAnimationFrame(loop);
 })();
 
-// Client cards observer
+// ===== CLIENT CARDS OBSERVER =====
 function observeClients() {
   const els = document.querySelectorAll(".client-card");
   const obs = new IntersectionObserver(
@@ -243,21 +260,22 @@ function observeClients() {
         }
       });
     },
-    { threshold: 0.18 },
+    { threshold: 0.18 }
   );
   els.forEach((el) => obs.observe(el));
 }
 
-// Marquee duplicate
+// ===== MARQUEE DUPLICATE =====
 if (marqueeTrack) {
   marqueeTrack.innerHTML = marqueeTrack.innerHTML + marqueeTrack.innerHTML;
 }
 
+// ===== INIT =====
 renderFilters();
 renderProjects();
 observeClients();
 
-// ESC to close modals
+// ===== ESC TO CLOSE =====
 window.addEventListener("keydown", (e) => {
   if (e.key === "Escape") {
     closeProject();
