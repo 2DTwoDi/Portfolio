@@ -1,6 +1,3 @@
-<!-- ============================================================
-     PAGES/ADMIN.HTML — Fixed navbar with hamburger + mobile menu
-     ============================================================ -->
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -17,45 +14,37 @@
       <span class="dot"></span><span id="toastMsg">Changes saved</span>
     </div>
 
-    <!-- ====== NAVBAR ====== -->
     <nav class="nav">
       <div class="container nav-inner">
         <a href="../index.html" class="logo">FILMAGE MEDIA©</a>
         <div class="nav-links">
-          <a href="../index.html#work" class="nav-link">Work</a>
-          <a href="../index.html#clients" class="nav-link">Clients</a>
-          <a href="tools.html" class="nav-link">Tools</a>
-          <a href="../index.html#contact" class="nav-link">Contact</a>
-          <a href="admin.html" class="nav-link active">Admin</a>
+          <a href="../index.html#work" class="nav-link">WORK</a>
+          <a href="../index.html#clients" class="nav-link">CLIENTS</a>
+          <a href="tools.html" class="nav-link">TOOLS</a>
+          <a href="../index.html#contact" class="nav-link">CONTACT</a>
+          <a href="admin.html" class="nav-link active">ADMIN</a>
         </div>
-        <div style="display: flex; gap: 12px; align-items: center">
-          <button class="btn-primary" id="startProjectBtn">Start a Project →</button>
-          <button class="hamburger" id="hamburger" aria-label="Menu">
-            <span></span><span></span><span></span>
-          </button>
-        </div>
-      </div>
-    </nav>
-
-    <!-- ====== MOBILE MENU ====== -->
-    <div id="mobileMenu" class="mobile-menu">
-      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 40px">
-        <div class="logo">FILMAGE MEDIA©</div>
-        <button class="hamburger" id="closeMobile" aria-label="Close menu" style="width: 22px">
+        <button class="hamburger" id="hamburger" aria-label="Menu">
           <span></span><span></span><span></span>
         </button>
       </div>
-      <a href="../index.html#work">Work</a>
-      <a href="../index.html#clients">Clients</a>
-      <a href="tools.html">Tools</a>
-      <a href="../index.html#contact">Contact</a>
-      <a href="admin.html">Admin</a>
-      <div class="mono" style="margin-top: 40px; font-size: 11px; opacity: 0.5; letter-spacing: 0.12em">
-        hello@filimagemedia.com<br />@filimagemedia
+    </nav>
+
+    <div id="mobileMenu" class="mobile-menu">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:40px">
+        <div class="logo">FILMAGE MEDIA©</div>
+        <button id="closeMobile" style="width:40px;height:40px;background:#f2f0eb;color:#000">✕</button>
+      </div>
+      <a href="../index.html#work">WORK</a>
+      <a href="../index.html#clients">CLIENTS</a>
+      <a href="tools.html">TOOLS</a>
+      <a href="../index.html#contact">CONTACT</a>
+      <a href="admin.html">ADMIN</a>
+      <div class="mono" style="margin-top:40px;font-size:11px;opacity:.5;letter-spacing:.12em">
+        hello@filimagemedia.com<br/>@filimagemedia
       </div>
     </div>
 
-    <!-- ====== MAIN ====== -->
     <main class="page">
       <div class="outer-frame">
         <header class="tools-header">
@@ -63,7 +52,6 @@
           <p class="mono">Manage products list dynamically via local storage</p>
         </header>
 
-        <!-- Manager Dashboard -->
         <div id="adminManagerView">
           <div class="admin-toolbar">
             <button class="btn-action" id="adminAddBtn">+ Add Tool</button>
@@ -78,7 +66,7 @@
             <table class="admin-table">
               <thead>
                 <tr>
-                  <th class="mono" style="width: 80px;">Icon</th>
+                  <th class="mono" style="width: 90px;">Preview</th>
                   <th class="mono">Name</th>
                   <th class="mono">Badge</th>
                   <th class="mono">Price</th>
@@ -86,13 +74,11 @@
                 </tr>
               </thead>
               <tbody id="adminTableBody">
-                <!-- Populated by admin.js -->
               </tbody>
             </table>
           </div>
         </div>
 
-        <!-- Add / Edit Form -->
         <div id="adminFormView" style="display: none;">
           <h2 class="serif form-title" id="formTitle">Add New Tool</h2>
           <form id="adminForm" onsubmit="return false;">
@@ -106,25 +92,45 @@
                 <label for="toolPrice" class="mono">Price*</label>
                 <input type="text" id="toolPrice" required placeholder="e.g. $49 or FREE" />
               </div>
-              <div class="form-group">
-                <label for="toolIcon" class="mono">Icon Character*</label>
-                <input type="text" id="toolIcon" required placeholder="e.g. ✂ or Aa" />
+
+              <div class="form-group full-width">
+                <label class="mono">Plugin Image (Optional — overrides icon if set)</label>
+                <div class="image-upload-wrap" id="imageUploadWrap">
+                  <div class="image-upload-drop" id="imageDropZone">
+                    <input type="file" id="toolImageFile" accept="image/*" hidden />
+                    <div id="imagePreviewEmpty">
+                      <span class="mono" style="font-size:18px; display:block; margin-bottom:8px;">⬆</span>
+                      <span class="mono" style="font-size:10px; letter-spacing:0.1em; opacity:0.8;">Click or drag image here • PNG / JPG / WEBP • Max 2MB</span>
+                    </div>
+                    <div id="imagePreviewHas" style="display:none;">
+                      <img id="imagePreviewImg" src="" alt="Preview" />
+                      <div class="image-preview-info mono">
+                        <span id="imagePreviewName">image.png</span>
+                        <button type="button" class="btn-table btn-delete" id="removeImageBtn" style="margin-left:auto;">Remove</button>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="mono" style="font-size:9px; opacity:0.4; margin-top:8px; letter-spacing:0.08em;">Stored as base64 in localStorage. For production use CDN URL.</div>
+                  <input type="text" id="toolImageUrl" placeholder="Or paste image URL https://..." style="margin-top:10px;" />
+                </div>
               </div>
+
               <div class="form-group">
-                <label for="toolIconImage" class="mono">Icon Image URL (optional)</label>
-                <input type="text" id="toolIconImage" placeholder="https://example.com/icon.png" />
+                <label for="toolIcon" class="mono">Icon Character (Fallback)</label>
+                <input type="text" id="toolIcon" placeholder="e.g. ✂ or Aa — used if no image" />
+                <span class="mono" style="font-size:9px; opacity:0.4; margin-top:4px; letter-spacing:0.06em;">Emoji, letters, or symbol. Keep as fallback.</span>
               </div>
               <div class="form-group">
                 <label for="toolBadge" class="mono">Badge*</label>
-                <input type="text" id="toolBadge" required placeholder="e.g. BESTSELLER" />
+                <input type="text" id="toolBadge" required placeholder="e.g. BESTSELLER or NEW" />
               </div>
               <div class="form-group full-width">
                 <label for="toolDesc" class="mono">Short Description*</label>
                 <input type="text" id="toolDesc" required placeholder="e.g. Auto podcast cuts" />
               </div>
               <div class="form-group full-width">
-                <label for="toolDownloadUrl" class="mono">Download URL (optional)</label>
-                <input type="text" id="toolDownloadUrl" placeholder="https://filimagemedia.gumroad.com/l/..." />
+                <label for="toolDownloadUrl" class="mono">Download URL (Optional)</label>
+                <input type="text" id="toolDownloadUrl" placeholder="e.g. https://filimagemedia.gumroad.com/l/filmage-cut" />
               </div>
             </div>
             <div class="form-actions">
@@ -134,21 +140,19 @@
           </form>
         </div>
 
-        <!-- Import JSON -->
         <div id="adminImportView" style="display: none;">
           <h2 class="serif form-title">Import Tools JSON</h2>
           <p class="mono" style="opacity: 0.5; margin-bottom: 12px; font-size: 11px;">Paste a JSON array of tools to overwrite the database.</p>
-          <textarea id="importJsonTextarea" placeholder='[{"name": "Tool", "price": "$49", "icon": "✂", "badge": "NEW", "desc": "Desc"}]'></textarea>
+          <textarea id="importJsonTextarea" placeholder='[{"name": "Tool", "price": "$49", "icon": "✂", "image": "https://... or base64", "badge": "NEW", "desc": "Desc"}]'></textarea>
           <div class="form-actions">
             <button class="btn-action" type="button" id="adminDoImportBtn">Import</button>
             <button class="btn-action btn-secondary" type="button" id="adminCancelImportBtn">Cancel</button>
           </div>
         </div>
 
-        <!-- Export JSON -->
         <div id="adminExportView" style="display: none;">
           <h2 class="serif form-title">Export Tools JSON</h2>
-          <p class="mono" style="opacity: 0.5; margin-bottom: 12px; font-size: 11px;">Copy this database backup to save your items list.</p>
+          <p class="mono" style="opacity: 0.5; margin-bottom: 12px; font-size: 11px;">Copy this database backup code to save your items list.</p>
           <textarea id="exportJsonTextarea" readonly></textarea>
           <div class="form-actions">
             <button class="btn-action" type="button" id="adminCopyBtn">Copy Code</button>
@@ -163,8 +167,6 @@
       </div>
     </main>
 
-    <!-- main.js provides mobile menu + toast + cursor; admin.js provides CMS logic -->
-    <script src="../js/main.js"></script>
     <script src="../js/admin.js"></script>
   </body>
 </html>
