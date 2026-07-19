@@ -150,7 +150,7 @@ function render() {
       (t, i) => `
     <div class="tool-card">
       <div class="tool-thumb">
-        <span class="tool-thumb-icon">${t.icon || "⚙"}</span>
+        <span class="tool-thumb-icon">${t.iconImage ? `<img src="${t.iconImage}" alt="" style="width:100%;height:100%;object-fit:contain" />` : (t.icon || "⚙")}</span>
       </div>
       <div class="tool-badge">${t.badge || "TOOL"}</div>
       <div class="tool-info">
